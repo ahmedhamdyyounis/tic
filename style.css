@@ -97,13 +97,14 @@ body {
     width: 8px;
     height: 60px;
     background-color: rgb(214, 54, 43);
+    translate: -50% -50%;
 }
 
 .cross::before {
-    transform: rotate(-45deg);
+    rotate: -45deg;
 }
 
 .cross::after {
-    transform: rotate(45deg)
+    rotate: 45deg;
 }
 
