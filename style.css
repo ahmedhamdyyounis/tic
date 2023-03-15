@@ -108,3 +108,17 @@ body {
     rotate: 45deg;
 }
 
+@media (max-width:500px) {
+    .cross::before,
+.cross::after {
+    width: 8px;
+    height: 40px;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+}
+
+}
+
