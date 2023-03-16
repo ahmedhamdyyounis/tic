@@ -132,6 +132,7 @@ body {
 .cross {
     position: relative;
     transform-origin: center;
+    
 }
 
 .cross::before,
@@ -142,6 +143,7 @@ body {
     height: 60px;
     background-color: rgb(214, 54, 43);
     translate: -50% -50%;
+    border-radius: 8px;
 }
 
 .cross::before {
@@ -180,4 +182,3 @@ body {
         transform: scale(1);
     }
 }
-
