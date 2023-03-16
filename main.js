@@ -62,7 +62,7 @@ function startTheGame(e){
                 div.classList.add('pop')
                 e.target.append(div)
 
-                // soundTiming(circleSound,0,0.4)
+                soundTiming(circleSound,0,0.4)
 
                 // Prevent Adding More Shapes
                 e.target.removeEventListener('click', addShape)
@@ -76,7 +76,7 @@ function startTheGame(e){
                 // Assigning The Pop Animation
                 div.classList.add('pop')
                 e.target.append(div)
-                // soundTiming(crossSound,0.1,0.5)
+                soundTiming(crossSound,0.1,0.5)
                 // Prevent Adding More Shapes
                 e.target.removeEventListener('click', addShape)
             }
@@ -157,7 +157,7 @@ function startTheGame(e){
                             
 
                                 // Insert the logic to tell there is a Tie
-                                
+
                             
                         }
 
