@@ -34,6 +34,7 @@ body {
 }
 
 .square {
+    
     width: calc(100% / 3);
     height: calc(100% / 3);
     border: 1px solid white;
@@ -42,6 +43,49 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.left-cross,
+.right-cross,
+.horizontal,
+.vertical{
+    position: relative;
+}
+
+.left-cross:after,
+.right-cross:after,
+.horizontal:after,
+.vertical:after {
+    position: absolute;
+    content: '';
+    width: 5px;
+    height: 166%;
+    background-color: white;
+}
+
+.left-cross:after {
+    rotate: -52deg;
+}
+.right-cross:after {
+    rotate: 52deg;
+}
+
+.horizontal:after {
+    rotate: 90deg;
+}
+.vertical:after {
+    rotate: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 .players {
@@ -119,6 +163,20 @@ body {
     width: 40px;
     height: 40px;
 }
-
 }
 
+.pop {
+    animation:popt 0.5s;
+}
+
+@keyframes popt{
+    0% {
+        transform: scale(0.5);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
