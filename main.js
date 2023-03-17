@@ -2,7 +2,10 @@ let board = document.querySelector('.board')
 let indicator = false 
 let playerOneV
 let playerTwoV
+let replayBtn = document.querySelector('.replay')
 
+let circleWinCounts = 0
+let crossWinCounts = 0
 // Sound Effects
 let circleSound = new Audio('sounds/circle.mp3')
 let crossSound = new Audio('sounds/cross.mp3')
@@ -35,10 +38,23 @@ function startTheGame(e){
     let playerOne = document.querySelector('.one')
     let playerTwo = document.querySelector('.two')
     let info = document.querySelector('.info')
+
+    // Wins Count Elements
+    let winsCountOne = document.querySelector('.player-one')
+    let winsCountTwo = document.querySelector('.player-two')
+
+    // Wins Counting Div
+    let playerOneName = document.querySelector('.player-one')
+    let playerTwoName = document.querySelector('.player-two')
+
+
     playerOneV= playerOne.value
     playerTwoV= playerTwo.value
+
     let playerOneValue = `It's ${playerOne.value[0].toUpperCase()}${playerOne.value.slice(1)}'s turn (Circle) `
     let playerTwoValue = `It's ${playerTwo.value[0].toUpperCase()}${playerTwo.value.slice(1)}'s turn (Cross) `
+
+
     let playerOneWon = `${playerOne.value[0].toUpperCase()}${playerOne.value.slice[1]} Wins`
     // Declare Which Player To Start
     info.textContent = playerOneValue
@@ -52,6 +68,7 @@ function startTheGame(e){
         square.addEventListener('click', addShape)
         
         function addShape(e){
+            // Indicates Which Shape Should Be Inserted (X or O)
             if(!indicator) {
                 info.textContent = playerTwoValue
                 indicator = true
@@ -94,11 +111,6 @@ function startTheGame(e){
 
                 const allSquaresCheck = [0,1,2,3,4,5,6,7,8]
 
-                let dada = allSquaresCheck.forEach(index => allSquares[index].firstChild?.classList.contains('circle', 'cross'))
-                if (dada ){
-                    console.log('all squares are full')
-                }
-
                 // Checking Combos Children Elements
                 winningCombos.forEach(array => {
 
@@ -130,7 +142,8 @@ function startTheGame(e){
                                 getCorrectSquares(array,verticalCrossArray[0],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[1],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[2],squares,'vertical')
-
+                                circleWinCounts++
+                                winsCountTwo.textContent = `Player One Score:${circleWinCounts - 8}`
                                 // Prevent Squares From Input Using CloneNode Trick
                                 square.replaceWith(square.cloneNode(true))
                             } )
@@ -139,7 +152,6 @@ function startTheGame(e){
                             info.textContent = `The Winner Is ${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)}`
                             allSquares.forEach( function (square) {
                                 
-
                                 getCorrectSquares(array,leftCrossArray,squares,'left-cross')
                                 getCorrectSquares(array,rightCrossArray,squares,'right-cross')
 
@@ -150,18 +162,40 @@ function startTheGame(e){
                                 getCorrectSquares(array,verticalCrossArray[0],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[1],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[2],squares,'vertical')
+                                crossWinCounts++
+                                
+                                winsCountTwo.textContent = `Player Two Score: ${crossWinCounts - 8}`
                                 square.replaceWith(square.cloneNode(true))
                             } )
                             return
-                        } else {
-                            
+                        } 
 
-                                // Insert the logic to tell there is a Tie
+                        // Check If It Is A Tie
+                        let squaresTieCount = 0
+                        allSquares.forEach(square => {
+                            if (square.firstChild?.classList.contains('cross') === true || square.firstChild?.classList.contains('circle')) {
+                                squaresTieCount++
+                            }
 
-                            
-                        }
+                            if (!crossWins && !circleWins && squaresTieCount === 9) {
+                                info.textContent = `It's a Tie`
+                                // Replay Button
+                                replayBtn.classList.remove('d-none')
 
-                        
+                                replayBtn.addEventListener('click', function replayTheGame(e){
+    
+                                    allSquares.forEach(square => {
+                                        square.innerHTML = ''
+                                        e.target.classList.add('d-none')
+                                        info.textContent = playerOneValue
+                                        // Make Squares Listens To Clicks Again
+                                        square.addEventListener('click', addShape)
+                                    })
+                                
+                                })
+                            }
+
+                        })
                 })
             }
         }
@@ -169,14 +203,15 @@ function startTheGame(e){
 }
 
 
-// Customized Function
+// Customized Functions 
+
+// 1- Control Sound Playing
 function soundTiming(sound,startTime,endTime,){
     sound.currentTime = startTime
     sound.play()
     let theInt = setInterval(function () {
         if (sound.currentTime > endTime ) {
             sound.pause()
-            console.log(sound.currentTime)
             clearInterval(theInt)
         }
     },10)
@@ -184,7 +219,7 @@ function soundTiming(sound,startTime,endTime,){
 
 
 
-// Get Correct  Arrays
+// 2- Get Correct  Arrays
 function getCorrectSquares(array,desiredArray,squares,positionClassName) {
 
     if (array.join('') === desiredArray.join('')) {
@@ -193,4 +228,8 @@ function getCorrectSquares(array,desiredArray,squares,positionClassName) {
         }
     }
 }
+
+
+
+
 
