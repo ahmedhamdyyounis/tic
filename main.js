@@ -143,7 +143,7 @@ function startTheGame(e){
                                 getCorrectSquares(array,verticalCrossArray[1],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[2],squares,'vertical')
                                 circleWinCounts++
-                                winsCountTwo.textContent = `Player One Score:${circleWinCounts - 8}`
+                                winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)} Score: ${circleWinCounts - 8}`
                                 // Prevent Squares From Input Using CloneNode Trick
                                 square.replaceWith(square.cloneNode(true))
                             } )
@@ -163,8 +163,7 @@ function startTheGame(e){
                                 getCorrectSquares(array,verticalCrossArray[1],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[2],squares,'vertical')
                                 crossWinCounts++
-                                
-                                winsCountTwo.textContent = `Player Two Score: ${crossWinCounts - 8}`
+                                winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)} Score: ${crossWinCounts - 8}`
                                 square.replaceWith(square.cloneNode(true))
                             } )
                             return
@@ -229,6 +228,7 @@ function getCorrectSquares(array,desiredArray,squares,positionClassName) {
     }
 }
 
+// 3-Replaying The Game
 
 
 
