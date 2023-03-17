@@ -5,18 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=Cedarville+Cursive&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=League+Spartan:wght@300;700&family=Marck+Script&family=Poppins:wght@200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
     <title> Tic Tac Toe</title>
 </head>
 <body>
       
+  <div class="players-count-wins">
+    <h3 class="player-one"></h3>
+    <h3 class="player-two"></h3>
+  </div>
       <div class="board"></div>
-      
       <form action="" class="players">
         <input type="text" name="" id="" placeholder="Player One Name" class="one">
         <input type="text" name="" id="" placeholder="Player Two Name"class="two">
-        <button type="submit" class="start">Start</button>
+        <button type="submit" class="start">Start</button>        
       </form>
+      <button  class="replay d-none">Replay</button>
       <p class="info"></p>
   <script src="main.js"></script>
 </body>
