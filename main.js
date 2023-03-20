@@ -105,6 +105,7 @@ function startTheGame(e){
             }
             
             clickedSquares.push(e.target)
+            console.log(e.target)
 
             indicateWinner()
             // Indicating The Winner
@@ -287,4 +288,3 @@ function getCorrectSquares(array,desiredArray,squares,positionClassName) {
         }
     }
 }
-
