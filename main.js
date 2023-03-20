@@ -176,6 +176,10 @@ function startTheGame(e){
 
                         // Replay Option
                         if (crossWins || circleWins) {
+                            // prevent Squares to be clickable after a win
+                            allSquares.forEach(element => {
+                                element.removeEventListener('click', addShape)
+                            });
                         if (circleWins) {
                             circleWinCounts++
                             winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)}'s  Score: ${circleWinCounts}`
