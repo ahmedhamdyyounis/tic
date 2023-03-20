@@ -292,5 +292,3 @@ function getCorrectSquares(array,desiredArray,squares,positionClassName) {
         }
     }
 }
-
-
