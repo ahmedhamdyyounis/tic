@@ -1,8 +1,8 @@
 let board = document.querySelector('.board')
-let indicator = false 
 let playerOneV
 let playerTwoV
 let replayBtn = document.querySelector('.replay')
+let indicator = false 
 
 let circleWinCounts = 0
 let crossWinCounts = 0
@@ -22,6 +22,7 @@ function createBoxes(){
         div.setAttribute('id',`${i + 1}`)
         board.append(div)
     }
+
 }
 
 
@@ -68,25 +69,25 @@ function startTheGame(e){
         square.addEventListener('click', addShape)
         
         function addShape(e){
+
             // Indicates Which Shape Should Be Inserted (X or O)
             if(!indicator) {
                 info.textContent = playerTwoValue
-                indicator = true
-
+                
                 // Create Div For First Player (Circle)
                 let div = document.createElement('div')
                 div.classList.add('circle')
                 div.classList.add('pop')
                 e.target.append(div)
-
+                
                 soundTiming(circleSound,0,0.4)
-
+                indicator = true
+                console.log(indicator)
                 // Prevent Adding More Shapes
                 e.target.removeEventListener('click', addShape)
             } else {
                 info.textContent = playerOneValue
-                indicator = false
-
+                
                 // Create Div For Second Player (Cross)
                 let div = document.createElement('div')
                 div.classList.add('cross')
@@ -94,8 +95,11 @@ function startTheGame(e){
                 div.classList.add('pop')
                 e.target.append(div)
                 soundTiming(crossSound,0.1,0.5)
+                indicator = false
                 // Prevent Adding More Shapes
                 e.target.removeEventListener('click', addShape)
+                console.log(indicator)
+
             }
 
             indicateWinner()
@@ -113,9 +117,9 @@ function startTheGame(e){
 
                 // Checking Combos Children Elements
                 winningCombos.forEach(array => {
-
+                    
                     array.every(cell => allSquares[cell].firstChild)
-
+                    
                     const circleWins = array.every(cell => 
                         allSquares[cell].firstChild?.classList.contains('circle'))
 
@@ -130,7 +134,6 @@ function startTheGame(e){
                         if (circleWins) {
                             info.textContent = `The Winner Is ${playerOneV[0].toUpperCase()}${playerOneV.slice(1)}`
                             allSquares.forEach(function (square) {
-
                                 // Draw A line Over Winning Squares
                                 getCorrectSquares(array,leftCrossArray,squares,'left-cross')
                                 getCorrectSquares(array,rightCrossArray,squares,'right-cross')
@@ -142,15 +145,14 @@ function startTheGame(e){
                                 getCorrectSquares(array,verticalCrossArray[0],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[1],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[2],squares,'vertical')
-                                circleWinCounts++
-                                winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)} Score: ${circleWinCounts - 8}`
+                                
                                 // Prevent Squares From Input Using CloneNode Trick
-                                square.replaceWith(square.cloneNode(true))
+                                // square.replaceWith(square.cloneNode(true))
                             } )
-                            return
+                            
                         } else if (crossWins){
                             info.textContent = `The Winner Is ${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)}`
-                            allSquares.forEach( function (square) {
+                            allSquares.forEach( function () {
                                 
                                 getCorrectSquares(array,leftCrossArray,squares,'left-cross')
                                 getCorrectSquares(array,rightCrossArray,squares,'right-cross')
@@ -162,12 +164,39 @@ function startTheGame(e){
                                 getCorrectSquares(array,verticalCrossArray[0],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[1],squares,'vertical')
                                 getCorrectSquares(array,verticalCrossArray[2],squares,'vertical')
-                                crossWinCounts++
-                                winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)} Score: ${crossWinCounts - 8}`
-                                square.replaceWith(square.cloneNode(true))
+                                // square.replaceWith(square.cloneNode(true))
                             } )
-                            return
+                            
                         } 
+
+                        // Replay Option
+                        if (crossWins || circleWins) {
+                        if (circleWins) {
+                            circleWinCounts++
+                            winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)} Score: ${circleWinCounts}`
+                            if (crossWinCounts === 0){
+                                winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)} Score: 0`
+                            }
+                            
+                        } else if (crossWins){
+                            crossWinCounts++
+                            winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)} Score: ${crossWinCounts}`
+                            if (circleWinCounts === 0 ) {
+                                winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)} Score: 0`
+                            }
+                        }
+
+                        
+
+
+                            let unClickable = document.querySelector('.un-clickable')
+                            unClickable.classList.remove('d-none')
+                            replayBtn.classList.remove('d-none')
+
+                            replayBtn.addEventListener('click', replayGame)
+
+                            
+                        }
 
                         // Check If It Is A Tie
                         let squaresTieCount = 0
@@ -181,21 +210,52 @@ function startTheGame(e){
                                 // Replay Button
                                 replayBtn.classList.remove('d-none')
 
-                                replayBtn.addEventListener('click', function replayTheGame(e){
+                                replayBtn.addEventListener('click', function replayGame(e){
     
                                     allSquares.forEach(square => {
-                                        square.innerHTML = ''
                                         e.target.classList.add('d-none')
                                         info.textContent = playerOneValue
+                                        square.innerHTML = ''
+                                        
                                         // Make Squares Listens To Clicks Again
                                         square.addEventListener('click', addShape)
+                                        indicator = false
                                     })
                                 
                                 })
                             }
 
                         })
+
+                        // ---- replay here
                 })
+            }
+
+            function replayGame() {
+                let unclickable = document.querySelector('.un-clickable')
+                unclickable.classList.add('d-none')
+                // Remove all shapes from the squares
+                let squares = document.querySelectorAll('.square')
+                squares.forEach(square => {
+                    
+                square.classList.remove('right-cross', 'left-cross', 'vertical', 'horizontal')
+                })
+                
+                for (let i = 0; i<squares.length; i++){
+                    if (squares[i].firstChild?.classList.contains('cross') === true || squares[i].firstChild?.classList.contains('circle')) {
+                        squares[i].removeChild(squares[i].firstChild)
+                    }
+                }
+                // Re-attach event listeners to each square
+                squares.forEach(square => {
+                square.addEventListener('click', addShape)
+                })
+            
+                // Reset game information
+                let playerOneValue = `It's ${playerOneV[0].toUpperCase()}${playerOneV.slice(1)}'s turn (Circle) `
+                info.textContent = playerOneValue
+                this.classList.add('d-none')
+                indicator = false
             }
         }
     })
@@ -227,9 +287,3 @@ function getCorrectSquares(array,desiredArray,squares,positionClassName) {
         }
     }
 }
-
-// 3-Replaying The Game
-
-
-
-
