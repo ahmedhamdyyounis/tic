@@ -65,6 +65,9 @@ function startTheGame(e){
     // Getting Board Squares
     let squares = document.querySelectorAll('.square')
 
+    // Saving All Clicked Squares In Array
+    let clickedSquares = []
+
     squares.forEach(function (square) {
         square.addEventListener('click', addShape)
         
@@ -98,9 +101,10 @@ function startTheGame(e){
                 indicator = false
                 // Prevent Adding More Shapes
                 e.target.removeEventListener('click', addShape)
-                console.log(indicator)
 
             }
+            
+            clickedSquares.push(e.target)
 
             indicateWinner()
             // Indicating The Winner
@@ -173,29 +177,25 @@ function startTheGame(e){
                         if (crossWins || circleWins) {
                         if (circleWins) {
                             circleWinCounts++
-                            winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)} Score: ${circleWinCounts}`
+                            winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)}'s  Score: ${circleWinCounts}`
                             if (crossWinCounts === 0){
-                                winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)} Score: 0`
+                                winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)}'s  Score: 0`
                             }
                             
                         } else if (crossWins){
                             crossWinCounts++
-                            winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)} Score: ${crossWinCounts}`
+                            winsCountTwo.textContent = `${playerTwoV[0].toUpperCase()}${playerTwoV.slice(1)}'s  Score: ${crossWinCounts}`
                             if (circleWinCounts === 0 ) {
-                                winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)} Score: 0`
+                                winsCountOne.textContent = `${playerOneV[0].toUpperCase()}${playerOneV.slice(1)}'s  Score: 0`
                             }
                         }
-
-                        
-
-
+                            // Making Squares Clickable Again
                             let unClickable = document.querySelector('.un-clickable')
                             unClickable.classList.remove('d-none')
                             replayBtn.classList.remove('d-none')
 
+                            // Attempting A Replay
                             replayBtn.addEventListener('click', replayGame)
-
-                            
                         }
 
                         // Check If It Is A Tie
@@ -227,36 +227,36 @@ function startTheGame(e){
 
                         })
 
-                        // ---- replay here
                 })
             }
 
-            function replayGame() {
-                let unclickable = document.querySelector('.un-clickable')
-                unclickable.classList.add('d-none')
-                // Remove all shapes from the squares
-                let squares = document.querySelectorAll('.square')
-                squares.forEach(square => {
-                    
-                square.classList.remove('right-cross', 'left-cross', 'vertical', 'horizontal')
-                })
+        }
+
+        function replayGame() {
+            let unclickable = document.querySelector('.un-clickable')
+            unclickable.classList.add('d-none')
+            // Remove all shapes from the squares
+            let squares = document.querySelectorAll('.square')
+            squares.forEach(square => {
                 
-                for (let i = 0; i<squares.length; i++){
-                    if (squares[i].firstChild?.classList.contains('cross') === true || squares[i].firstChild?.classList.contains('circle')) {
-                        squares[i].removeChild(squares[i].firstChild)
-                    }
-                }
-                // Re-attach event listeners to each square
-                squares.forEach(square => {
-                square.addEventListener('click', addShape)
-                })
+            square.classList.remove('right-cross', 'left-cross', 'vertical', 'horizontal')
+            })
             
-                // Reset game information
-                let playerOneValue = `It's ${playerOneV[0].toUpperCase()}${playerOneV.slice(1)}'s turn (Circle) `
-                info.textContent = playerOneValue
-                this.classList.add('d-none')
-                indicator = false
-            }
+            
+            clickedSquares.forEach(clicked => {
+                clicked.removeChild(clicked.firstChild)
+                clicked.addEventListener('click', addShape)
+            })
+
+            indicator = false
+            
+            // Re-attach event listeners to each square
+        
+            // Reset game information
+            let playerOneValue = `It's ${playerOneV[0].toUpperCase()}${playerOneV.slice(1)}'s turn (Circle) `
+            info.textContent = playerOneValue
+            this.classList.add('d-none')
+            clickedSquares = []
         }
     })
 }
